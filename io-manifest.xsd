@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="IOManifest">
+
+  <xs:complexType>
+    <xs:all>
+      <xs:element name="Header" maxOccurs="1">
+        <xs:complexType>
+          <xs:all>
+            <!-- Langue à utiliser pour les traductions -->
+            <xs:element name="Language" >
+              <xs:annotation>
+                <xs:documentation xml:lang="en">Language to use in this plugin</xs:documentation>
+                <xs:documentation xml:lang="fr">Langue à utiliser pour les traductions</xs:documentation>
+              </xs:annotation>
+
+              <xs:simpleType>
+                <xs:restriction base="xs:language" >
+                    <xs:enumeration value="fr"/>
+                    <xs:enumeration value="en"/>
+                </xs:restriction>
+              </xs:simpleType>
+            </xs:element>
+
+            <!-- Clé cliente du plugin -->
+            <xs:element name="ClientPluginKey"  >
+              <xs:annotation>
+                <xs:documentation xml:lang="en">Plugin client key</xs:documentation>
+                <xs:documentation xml:lang="fr">Clé cliente du plugin</xs:documentation>
+              </xs:annotation>
+            </xs:element>
+
+            <!-- Les dépendances du plugin -->
+            <xs:element name="Dependencies" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">Plugin dependeny list</xs:documentation>
+                <xs:documentation xml:lang="fr">Ensemble des dépendances du plugin</xs:documentation>
+              </xs:annotation>
+
+              <xs:complexType>
+                <xs:sequence maxOccurs="unbounded">
+                  <!-- Une dépendance -->
+                  <xs:element name="Dependency" minOccurs="0">
+                    <xs:annotation>
+                      <xs:documentation xml:lang="en">A plugin dependency</xs:documentation>
+                      <xs:documentation xml:lang="fr">Une dépendance du plugin</xs:documentation>
+                    </xs:annotation>
+
+                    <xs:complexType>
+                      <xs:all>
+                        <xs:element name="Name" type="xs:string" >
+                          <xs:annotation>
+                            <xs:documentation xml:lang="en">Plugin Name</xs:documentation>
+                            <xs:documentation xml:lang="fr">Nom de la dépendance</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                        <!-- Nom qui permettra d'accéder à la dépendance dans ce plugin -->
+                        <xs:element name="Alias" type="xs:string"  >
+                          <xs:annotation>
+                            <xs:documentation xml:lang="en">Name that will access the dependency in this plugin</xs:documentation>
+                            <xs:documentation xml:lang="fr">Nom qui permettra d'accéder à la dépendance dans ce plugin</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                        <!-- Version actuelle du plugin -->
+                        <xs:element name="Version" type="xs:string"  >
+                          <xs:annotation>
+                            <xs:documentation xml:lang="en">Current version of the plugin</xs:documentation>
+                            <xs:documentation xml:lang="fr">Version actuelle du plugin</xs:documentation>
+                          </xs:annotation>
+                        </xs:element>
+                      </xs:all>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+
+
+            <!-- Les permissions dont le plugin à besoin -->
+            <xs:element name="Permissions" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">All permissions required by the plugin, whether required or not.</xs:documentation>
+                <xs:documentation xml:lang="fr">Ensemble des permissions requises par le plugins, qu'elles soient indispensables ou non.</xs:documentation>
+              </xs:annotation>
+
+              <xs:complexType>
+                <xs:all>
+                  <!-- Permission du côté client -->
+                  <xs:element name="Client" >
+                    <xs:annotation>
+                      <xs:documentation xml:lang="en">Client-side permissions</xs:documentation>
+                      <xs:documentation xml:lang="fr">Permissions du côté client</xs:documentation>
+                    </xs:annotation>
+
+                    <xs:complexType>
+                      <xs:sequence maxOccurs="unbounded">
+                        <xs:element name="Permission" minOccurs="0">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="en">A permission required by the plugin, whether required or not.</xs:documentation>
+                            <xs:documentation xml:lang="fr">Une permission dont le plugin a besoin, qu'elles soient indispensables ou non.</xs:documentation>
+                          </xs:annotation>
+                          
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string" >
+                                <xs:enumeration value="MANAGE_FILE"/>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                  
+                  <!-- Permission du côté server -->
+                  <xs:element name="Server" >
+                    <xs:annotation>
+                      <xs:documentation xml:lang="en">Server-side permissions</xs:documentation>
+                      <xs:documentation xml:lang="fr">Permissions du côté Server</xs:documentation>
+                    </xs:annotation>
+
+                    <xs:complexType>
+                      <xs:sequence maxOccurs="unbounded">
+                        <xs:element name="Permission" minOccurs="0">
+                          <xs:annotation>
+                            <xs:documentation xml:lang="en">A permission required by the plugin, whether required or not.</xs:documentation>
+                            <xs:documentation xml:lang="fr">Une permission dont le plugin a besoin, qu'elles soient indispensables ou non.</xs:documentation>
+                          </xs:annotation>
+                          
+                          <xs:simpleType>
+                            <xs:restriction base="xs:string" >
+                                <xs:enumeration value="DATABASE"/>
+                                <xs:enumeration value="EXTERNAL_NETWORK">
+                                  <xs:annotation>
+                                    <xs:documentation xml:lang="en">Allows a connection with a system external to the server (http, socket, ...).</xs:documentation>
+                                    <xs:documentation xml:lang="fr">Permet un connection avec un système externe au serveur (http, socket, ...).</xs:documentation>
+                                  </xs:annotation>
+                                </xs:enumeration>
+                            </xs:restriction>
+                          </xs:simpleType>
+                        </xs:element>
+                      </xs:sequence>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:all>
+              </xs:complexType>
+            </xs:element>
+          </xs:all>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element name="Config" maxOccurs="1" >
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Set of keys used by the plugin</xs:documentation>
+          <xs:documentation xml:lang="fr">
+            Contient la configuration qui sera fournie au plugin. IL est recommendé de suivre la
+            documentation fournie par notre support pour créer votre premier fichier de configuration
+          </xs:documentation>
+        </xs:annotation>
+
+      </xs:element>
+      
+      <xs:element name="Inputs" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Set of keys used by the plugin</xs:documentation>
+          <xs:documentation xml:lang="fr">Ensemble des touches utilisées par le plugin</xs:documentation>
+        </xs:annotation>
+
+        <xs:complexType>
+          <xs:sequence maxOccurs="unbounded">
+            <!-- Un Input -->
+            <xs:element name="Input" minOccurs="0">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">A key, or combination of keys, to be used by the plugin</xs:documentation>
+                <xs:documentation xml:lang="fr">Une touche, ou une combinaison de touches, destinée à être utilisée par le plugin</xs:documentation>
+              </xs:annotation>
+
+              <xs:complexType>
+                <xs:all>
+                  <xs:element name="Name" type="xs:string" >
+                    <xs:annotation>
+                      <xs:documentation xml:lang="en">Name of the input (key/key combination)</xs:documentation>
+                      <xs:documentation xml:lang="fr">Nom de l'entrée (touche/combinaison de touche)</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <xs:element name="Description" type="xs:string"  >
+                    <xs:annotation>
+                      <xs:documentation xml:lang="en">Description of the input (key/key combination)</xs:documentation>
+                      <xs:documentation xml:lang="fr">Description de l'entrée (touche/combinaison de touche)</xs:documentation>
+                    </xs:annotation>
+                  </xs:element>
+                  <!-- Les touches -->
+                  <xs:element name="Keys" minOccurs="0"  >
+                    <xs:annotation>
+                      <xs:documentation xml:lang="en">The keys to press</xs:documentation>
+                      <xs:documentation xml:lang="fr">Les touches sur lesquels il faut appuyer</xs:documentation>
+                    </xs:annotation>
+                    <xs:complexType>
+                      <xs:all>
+                        <!-- Une touche -->
+                        <xs:element name="Key"  minOccurs="1" >
+                          <xs:annotation>
+                            <xs:documentation xml:lang="en">A key</xs:documentation>
+                            <xs:documentation xml:lang="fr">
+                              Une touche. De base, l'attribut inputMapper est 'controller' et n'accepte que les touches de ce type. 
+                              Si votre touche est différente, veuillez changer l'attribut inputMapper par celui qui correspond, sur le
+                              site suivant : https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/
+                            </xs:documentation>
+                          </xs:annotation>
+
+                          <xs:complexType>
+                            <xs:simpleContent>
+                              <xs:extension base="xs:string">
+                                <xs:attribute name="inputMapper" default="KEYBOARD">
+                                  <xs:simpleType>
+                                    <xs:restriction base="xs:string" >
+                                        <xs:enumeration value="DIGITALBUTTON_AXIS"/>
+                                        <xs:enumeration value="GAME_CONTROLLED"/>
+                                        <xs:enumeration value="JOYSTICK_AXIS"/>
+                                        <xs:enumeration value="JOYSTICK_AXIS_NEGATIVE"/>
+                                        <xs:enumeration value="JOYSTICK_AXIS_POSITIVE"/>
+                                        <xs:enumeration value="JOYSTICK_BUTTON"/>
+                                        <xs:enumeration value="JOYSTICK_IAXIS"/>
+                                        <xs:enumeration value="JOYSTICK_POV"/>
+                                        <xs:enumeration value="JOYSTICK_POV_AXIS"/>
+                                        <xs:enumeration value="KEYBOARD"/>
+                                        <xs:enumeration value="MKB_AXIS"/>
+                                        <xs:enumeration value="MOUSE_ABSOLUTEAXIS"/>
+                                        <xs:enumeration value="MOUSE_BUTTON"/>
+                                        <xs:enumeration value="MOUSE_BUTTONANY"/>
+                                        <xs:enumeration value="MOUSE_CENTEREDAXIS"/>
+                                        <xs:enumeration value="MOUSE_RELATIVEAXIS"/>
+                                        <xs:enumeration value="MOUSE_SCALEDAXIS"/>
+                                        <xs:enumeration value="MOUSE_NORMALIZED"/>
+                                        <xs:enumeration value="MOUSE_WHEEL"/>
+                                        <xs:enumeration value="PAD_ANALOGBUTTON"/>
+                                        <xs:enumeration value="PAD_AXIS"/>
+                                        <xs:enumeration value="PAD_DEBUGBUTTON"/>
+                                        <xs:enumeration value="PAD_DIGITALBUTTON"/>
+                                        <xs:enumeration value="PAD_DIGITALBUTTONANY"/>
+                                        <xs:enumeration value="TOUCHPAD_ABSOLUTE_AXIS"/>
+                                        <xs:enumeration value="TOUCHPAD_CENTERED_AXIS"/>
+                                    </xs:restriction>
+                                  </xs:simpleType>
+                                </xs:attribute>
+                              </xs:extension>
+                            </xs:simpleContent>
+                          </xs:complexType>
+                          
+                        </xs:element>
+                      </xs:all>
+                    </xs:complexType>
+                  </xs:element>
+                </xs:all>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:all>
+
+    <!-- Version minimale requise pour le plugin -->
+    <xs:attribute name="minVersion" type="xs:float" use="required" />
+    
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>
